@@ -1,0 +1,3 @@
+# cloudflare-error-worker
+
+Nothing to see here yet...
