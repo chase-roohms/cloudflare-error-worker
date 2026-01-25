@@ -1,5 +1,12 @@
 {
   "name": "cloudflare-error-worker",
   "compatibility_date": "2026-01-25",
-  "main": "src/index.js"
+  "main": "src/index.js",
+  "rules": [
+    {
+      "type": "Text",
+      "globs": ["**/*.html", "**/*.css"],
+      "fallthrough": true
+    }
+  ]
 }
