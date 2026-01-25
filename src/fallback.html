@@ -3,11 +3,96 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Server Unavailable</title>
+  <title>Service Unavailable - 503</title>
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <h1>Server Temporarily Unavailable</h1>
-  <p>We'll be back shortly. Thank you for your patience!</p>
-  <p class="status-code">Error Code: {{STATUS_CODE}}</p>
+  <div class="container">
+    <div class="error-icon critical">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="15" y1="9" x2="9" y2="15"></line>
+        <line x1="9" y1="9" x2="15" y2="15"></line>
+      </svg>
+    </div>
+    
+    <h1>Service Currently Unavailable</h1>
+    <p class="subtitle">The origin server is unreachable</p>
+    
+    <div class="error-details">
+      <div class="error-code-badge critical">
+        <span class="label">Error Code</span>
+        <span class="code">{{STATUS_CODE}}</span>
+      </div>
+      <div class="timestamp">
+        <span class="label">Time</span>
+        <span class="value">{{TIMESTAMP}}</span>
+      </div>
+    </div>
+    
+    <div class="info-box critical">
+      <h2>What happened?</h2>
+      <p>We're unable to reach the server. This typically means:</p>
+      <ul>
+        <li>The server is down for maintenance</li>
+        <li>There's a network connectivity issue</li>
+        <li>The server is experiencing high traffic</li>
+      </ul>
+    </div>
+    
+    <div class="info-box">
+      <h2>What can you do?</h2>
+      <ul>
+        <li><strong>Wait a few minutes</strong> and try refreshing the page</li>
+        <li>Check our status page for updates</li>
+        <li>If this is urgent, contact support with the error details below</li>
+      </ul>
+    </div>
+    
+    <div class="contact-section">
+      <h2>Need Immediate Assistance?</h2>
+      <p>If this is a critical issue, please contact us:</p>
+      <div class="contact-buttons">
+        <a href="{{CONTACT_EMAIL_LINK}}" class="contact-btn email">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          Email Support
+        </a>
+        <a href="{{CONTACT_URL}}" class="contact-btn web" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+          Visit Status Page
+        </a>
+      </div>
+      <p class="contact-info">Include the error code and timestamp when reporting issues.</p>
+    </div>
+    
+    <button class="retry-btn" onclick="location.reload()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="23 4 23 10 17 10"></polyline>
+        <polyline points="1 20 1 14 7 14"></polyline>
+        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+      </svg>
+      Retry Now
+    </button>
+    
+    <div class="debug-info">
+      <details>
+        <summary>Technical Details (for developers)</summary>
+        <div class="debug-content">
+          <p><strong>Error Type:</strong> Origin Unreachable</p>
+          <p><strong>Status:</strong> 503 Service Unavailable</p>
+          <p><strong>Worker:</strong> Cloudflare Error Handler</p>
+          <p><strong>Timestamp:</strong> {{TIMESTAMP}}</p>
+          <p><strong>Description:</strong> The Cloudflare Worker was unable to establish a connection to the origin server. This indicates the backend is completely unreachable.</p>
+        </div>
+      </details>
+    </div>
+  </div>
 </body>
 </html>
