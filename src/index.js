@@ -7,8 +7,7 @@ import styles from './styles.css';
 const CONFIG = {
   // Contact information - users will see these on error pages
   contact: {
-    email: 'support@example.com',  // Change to your support email
-    url: 'https://status.example.com',  // Change to your status page or support URL
+    email: 'chaseroohms@gmail.com',  // Change to your support email
   },
   
   // Enable/disable features
@@ -98,7 +97,7 @@ export default {
           ERROR_MESSAGE: getErrorMessage(response.status),
           TIMESTAMP: CONFIG.features.showTimestamp ? getCurrentTimestamp() : 'N/A',
           CONTACT_EMAIL_LINK: `mailto:${CONFIG.contact.email}?subject=Error%20Report%20${response.status}&body=Error%20Code:%20${response.status}%0ATime:%20${getCurrentTimestamp()}`,
-          CONTACT_URL: CONFIG.contact.url,
+          CONTACT_EMAIL: CONFIG.contact.email,
         };
         
         // Inject CSS and variables into the HTML
@@ -123,7 +122,6 @@ export default {
         STATUS_CODE: '503',
         TIMESTAMP: CONFIG.features.showTimestamp ? getCurrentTimestamp() : 'N/A',
         CONTACT_EMAIL_LINK: `mailto:${CONFIG.contact.email}?subject=Critical%20Error%20Report%20503&body=Error%20Code:%20503%0ATime:%20${getCurrentTimestamp()}%0ADetails:%20Origin%20server%20unreachable`,
-        CONTACT_URL: CONFIG.contact.url,
         STYLES: styles,
       };
       

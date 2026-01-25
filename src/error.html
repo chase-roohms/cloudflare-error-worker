@@ -3,79 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Service Error - {{STATUS_CODE}}</title>
+  <title>Error {{STATUS_CODE}}</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
   <div class="container">
-    <div class="error-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"></circle>
-        <line x1="12" y1="8" x2="12" y2="12"></line>
-        <line x1="12" y1="16" x2="12.01" y2="16"></line>
-      </svg>
+    <h1>{{STATUS_CODE}}</h1>
+    <p class="message">{{ERROR_MESSAGE}}</p>
+    
+    <div class="meta">
+      <span>{{TIMESTAMP}}</span>
     </div>
     
-    <h1>Service Temporarily Unavailable</h1>
-    <p class="subtitle">We're experiencing technical difficulties</p>
-    
-    <div class="error-details">
-      <div class="error-code-badge">
-        <span class="label">Error Code</span>
-        <span class="code">{{STATUS_CODE}}</span>
-      </div>
-      <div class="timestamp">
-        <span class="label">Time</span>
-        <span class="value">{{TIMESTAMP}}</span>
-      </div>
+    <div class="contact">
+      <p>For assistance: <a href="{{CONTACT_EMAIL_LINK}}">{{CONTACT_EMAIL}}</a></p>
     </div>
-    
-    <div class="info-box">
-      <h2>What happened?</h2>
-      <p>{{ERROR_MESSAGE}}</p>
-    </div>
-    
-    <div class="info-box">
-      <h2>What can you do?</h2>
-      <ul>
-        <li>Wait a few moments and refresh the page</li>
-        <li>Clear your browser cache and cookies</li>
-        <li>Check if the issue persists in an incognito/private window</li>
-        <li>Try again later - we're working to restore service</li>
-      </ul>
-    </div>
-    
-    <div class="contact-section">
-      <h2>Need Help?</h2>
-      <p>If this problem persists, please contact us:</p>
-      <div class="contact-buttons">
-        <a href="{{CONTACT_EMAIL_LINK}}" class="contact-btn email">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-            <polyline points="22,6 12,13 2,6"></polyline>
-          </svg>
-          Email Support
-        </a>
-        <a href="{{CONTACT_URL}}" class="contact-btn web" target="_blank" rel="noopener">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="2" y1="12" x2="22" y2="12"></line>
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-          </svg>
-          Visit Status Page
-        </a>
-      </div>
-      <p class="contact-info">Include the error code and timestamp when reporting issues.</p>
-    </div>
-    
-    <button class="retry-btn" onclick="location.reload()">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="23 4 23 10 17 10"></polyline>
-        <polyline points="1 20 1 14 7 14"></polyline>
-        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-      </svg>
-      Retry Now
-    </button>
   </div>
 </body>
 </html>
