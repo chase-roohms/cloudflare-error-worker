@@ -1,5 +1,4 @@
 import errorHtml from './error.html';
-import fallbackHtml from './fallback.html';
 import styles from './styles.css';
 
 // ===== CONFIGURATION =====
@@ -54,8 +53,8 @@ const ERROR_MESSAGES = {
   // 5XX Server Errors
   500: 'The server encountered an unexpected condition that prevented it from fulfilling the request.',
   501: 'The server does not support the functionality required to fulfill the request.',
-  502: 'The server received an invalid response from the upstream server. This is often due to a loss of power or internet connectivity.',
-  503: 'The server is temporarily unable to handle the request. This is usually a temporary state.',
+  502: 'The server received an invalid response from the upstream server.',
+  503: 'The server is temporarily unable to handle the request. This is usually temporary and is often due to a loss of power or internet connectivity.',
   504: 'The server did not receive a timely response from the upstream server.',
   505: 'The server does not support the HTTP protocol version used in the request.',
   507: 'The server is unable to store the representation needed to complete the request.',
@@ -120,12 +119,15 @@ export default {
       // Handle cases where the origin is completely unreachable
       const variables = {
         STATUS_CODE: '503',
+        ERROR_MESSAGE: getErrorMessage(503),
         TIMESTAMP: CONFIG.features.showTimestamp ? getCurrentTimestamp() : 'N/A',
         CONTACT_EMAIL_LINK: `mailto:${CONFIG.contact.email}?subject=Critical%20Error%20Report%20503&body=Error%20Code:%20503%0ATime:%20${getCurrentTimestamp()}%0AURL:%20${encodeURIComponent(request.url)}%0ADetails:%20Origin%20server%20unreachable`,
-        STYLES: styles,
+        CONTACT_EMAIL: CONFIG.contact.email,
       };
       
-      let html = injectVariables(fallbackHtml, variables);
+      // Inject CSS and variables into the HTML
+      let html = errorHtml.replace('<link rel="stylesheet" href="./styles.css">', `<style>${styles}</style>`);
+      html = injectVariables(html, variables);
       
       return new Response(html, { 
         status: 503,
