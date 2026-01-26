@@ -54,7 +54,7 @@ const ERROR_MESSAGES = {
   500: 'The server encountered an unexpected condition that prevented it from fulfilling the request.',
   501: 'The server does not support the functionality required to fulfill the request.',
   502: 'The server received an invalid response from the upstream server.',
-  503: 'The server is temporarily unable to handle the request. This is usually temporary and is often due to a loss of power or internet connectivity.',
+  503: 'The server is temporarily unreachable. This is usually temporary and is often due to a loss of power or internet connectivity.',
   504: 'The server did not receive a timely response from the upstream server.',
   505: 'The server does not support the HTTP protocol version used in the request.',
   507: 'The server is unable to store the representation needed to complete the request.',

@@ -36,6 +36,13 @@ h1 {
   font-weight: 400;
 }
 
+.note {
+  font-size: 0.9rem;
+  color: #bbb;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
 .meta {
   margin-bottom: 3rem;
   padding-bottom: 2rem;
