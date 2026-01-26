@@ -5,7 +5,12 @@
   "rules": [
     {
       "type": "Text",
-      "globs": ["**/*.html", "**/*.css", "**/*.svg", "**/health-check.js"],
+      "globs": [
+        "**/*.html", 
+        "**/*.css", 
+        "**/*.svg", 
+        "**/health-check.js"
+      ],
       "fallthrough": true
     }
   ]
