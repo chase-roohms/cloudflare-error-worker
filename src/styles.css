@@ -36,6 +36,31 @@ h1 {
   font-weight: 400;
 }
 
+.retry-button {
+  margin-bottom: 2rem;
+}
+
+.retry-button button {
+  background: #444;
+  color: #e0e0e0;
+  border: 1px solid #666;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9375rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.retry-button button:hover {
+  background: #555;
+  border-color: #777;
+}
+
+.retry-button button:active {
+  transform: scale(0.98);
+}
+
 .note {
   font-size: 0.9rem;
   color: #bbb;

@@ -95,6 +95,7 @@ export default {
           STATUS_CODE: response.status.toString(),
           ERROR_MESSAGE: getErrorMessage(response.status),
           TIMESTAMP: CONFIG.features.showTimestamp ? getCurrentTimestamp() : 'N/A',
+          RETRY_BUTTON: CONFIG.features.showRetryButton ? '<div class="retry-button"><button onclick="location.reload()">Try Again</button></div>' : '',
           CONTACT_EMAIL_LINK: `mailto:${CONFIG.contact.email}?subject=Error%20Report%20${response.status}&body=Error%20Code:%20${response.status}%0ATime:%20${getCurrentTimestamp()}%0AURL:%20${encodeURIComponent(request.url)}`,
           CONTACT_EMAIL: CONFIG.contact.email,
         };
@@ -121,6 +122,7 @@ export default {
         STATUS_CODE: '503',
         ERROR_MESSAGE: getErrorMessage(503),
         TIMESTAMP: CONFIG.features.showTimestamp ? getCurrentTimestamp() : 'N/A',
+        RETRY_BUTTON: CONFIG.features.showRetryButton ? '<div class="retry-button"><button onclick="location.reload()">Try Again</button></div>' : '',
         CONTACT_EMAIL_LINK: `mailto:${CONFIG.contact.email}?subject=Critical%20Error%20Report%20503&body=Error%20Code:%20503%0ATime:%20${getCurrentTimestamp()}%0AURL:%20${encodeURIComponent(request.url)}%0ADetails:%20Origin%20server%20unreachable`,
         CONTACT_EMAIL: CONFIG.contact.email,
       };
