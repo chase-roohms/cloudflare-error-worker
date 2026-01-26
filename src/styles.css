@@ -54,14 +54,23 @@ h1 {
   color: #666;
   font-family: 'Courier New', monospace;
 }
+.healthcheck {
+  font-size: 0.9rem;
+  color: #bbb;
+  margin-bottom: 2rem;
+  text-align: left;
+}
 
+.healthcheck #health-status {
+  font-weight: 600;
+}
 .contact {
   text-align: left;
 }
 
 .contact p {
   font-size: 0.875rem;
-  color: #999;
+  color: #bbb;
   margin-bottom: 0.75rem;
   white-space: nowrap;
 }
@@ -69,7 +78,7 @@ h1 {
 .contact a {
   display: inline;
   font-size: 0.875rem;
-  color: #ccc;
+  color: #bbb;
   text-decoration: none;
 }
 

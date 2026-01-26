@@ -15,13 +15,46 @@
       <span>{{TIMESTAMP}}</span>
     </div>
     
-    <div class="note">
+    <div class="healthcheck">
+      <p><b>System Status:</b> <span id="health-status">Checking...</span></p>
+    </div>
+    
+    <div class="note" id="down-note" style="display: none;">
       <p><b>Note:</b> Since these apps are self hosted, there is a good chance that my power is out, I have lost internet connection, or I simply needed to restart my server for some reason. Please be patient and try again later. Thank you for your understanding!</p>
+    </div>
+    
+    <div class="note" id="unable-to-check-note" style="display: none;">
+      <p><b>Note:</b> There is an issue with healthchecks.io at the moment. Please try again later.</p>
     </div>
     
     <div class="contact">
       <p><b>Contact:</b> <a href="{{CONTACT_EMAIL_LINK}}">{{CONTACT_EMAIL}}</a></p>
     </div>
   </div>
+  
+  <script>
+    // Fetch health check status
+    const statusElement = document.getElementById('health-status');
+    const downNote = document.getElementById('down-note');
+    const unableToCheckNote = document.getElementById('unable-to-check-note');
+    
+    fetch('https://healthchecks.io/badge/d9391430-9c27-429c-baa8-f8bb31/qih-KWzU.json')
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'up') {
+          statusElement.textContent = 'Up';
+          statusElement.style.color = '#4ade80';
+        } else {
+          statusElement.textContent = 'Down';
+          statusElement.style.color = '#f87171';
+          downNote.style.display = 'block';
+        }
+      })
+      .catch(error => {
+        statusElement.textContent = 'Unable to check';
+        statusElement.style.color = '#fbbf24';
+        unableToCheckNote.style.display = 'block';
+      });
+  </script>
 </body>
 </html>
