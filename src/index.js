@@ -1,5 +1,7 @@
 import errorHtml from './error.html';
 import styles from './styles.css';
+import favicon from './favicon.svg';
+import healthCheckScript from './health-check.js';
 
 // ===== CONFIGURATION =====
 // Customize these settings for your needs
@@ -102,6 +104,8 @@ export default {
         
         // Inject CSS and variables into the HTML
         let html = errorHtml.replace('<link rel="stylesheet" href="./styles.css">', `<style>${styles}</style>`);
+        html = html.replace('<link rel="icon" type="image/svg+xml" href="./favicon.svg">', `<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,${encodeURIComponent(favicon)}">`);
+        html = html.replace('<script src="./health-check.js"></script>', `<script>${healthCheckScript}</script>`);
         html = injectVariables(html, variables);
         
         return new Response(html, { 
@@ -129,6 +133,8 @@ export default {
       
       // Inject CSS and variables into the HTML
       let html = errorHtml.replace('<link rel="stylesheet" href="./styles.css">', `<style>${styles}</style>`);
+      html = html.replace('<link rel="icon" type="image/svg+xml" href="./favicon.svg">', `<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,${encodeURIComponent(favicon)}">`);
+      html = html.replace('<script src="./health-check.js"></script>', `<script>${healthCheckScript}</script>`);
       html = injectVariables(html, variables);
       
       return new Response(html, { 
