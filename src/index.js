@@ -90,8 +90,8 @@ export default {
     try {
       const response = await fetch(request);
       
-      // Check if the origin server returned a 4xx or 5xx error
-      if ((response.status >= 400 && response.status < 600)) {
+      // Check if the origin server returned a 5xx error or a 404 error
+      if ((response.status >= 500 && response.status < 600 ) || (response.status == 404)) {
         // Prepare variables for template injection
         const variables = {
           STATUS_CODE: response.status.toString(),
