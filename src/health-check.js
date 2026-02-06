@@ -2,8 +2,9 @@
 const statusElement = document.getElementById('health-status');
 const downNote = document.getElementById('down-note');
 const unableToCheckNote = document.getElementById('unable-to-check-note');
+const healthCheckUrl = '{{HEALTH_CHECK_URL}}';
 
-fetch('https://healthchecks.io/badge/d9391430-9c27-429c-baa8-f8bb31/qih-KWzU.json')
+fetch(healthCheckUrl)
   .then(response => response.json())
   .then(data => {
     if (data.status === 'up') {

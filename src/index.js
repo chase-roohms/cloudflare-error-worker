@@ -4,19 +4,26 @@ import favicon from './favicon.svg';
 import healthCheckScript from './health-check.js';
 
 // ===== CONFIGURATION =====
-// Customize these settings for your needs
-const CONFIG = {
-  // Contact information - users will see these on error pages
-  contact: {
-    email: 'chaseroohms@gmail.com',  // Change to your support email
-  },
-  
-  // Enable/disable features
-  features: {
-    showTimestamp: true,
-    showRetryButton: true,
-  }
-};
+// Configuration now uses environment variables with fallbacks
+function getConfig(env) {
+  return {
+    // Contact information - users will see these on error pages
+    contact: {
+      email: env.CONTACT_EMAIL || 'chaseroohms@gmail.com',
+    },
+    
+    // Enable/disable features
+    features: {
+      showTimestamp: env.SHOW_TIMESTAMP !== 'false', // defaults to true
+      showRetryButton: env.SHOW_RETRY_BUTTON !== 'false', // defaults to true
+    },
+    
+    // Health check configuration
+    healthCheck: {
+      url: env.HEALTH_CHECK_URL || 'https://healthchecks.io/badge/d9391430-9c27-429c-baa8-f8bb31/qih-KWzU.json',
+    }
+  };
+}
 // ========================
 
 // Error message mappings for common HTTP status codes
@@ -85,8 +92,36 @@ function injectVariables(html, variables) {
   return result;
 }
 
+function buildErrorResponse(statusCode, variables, isFallback = false) {
+  // Inject CSS, favicon, and health check script into the HTML
+  let html = errorHtml
+    .replace('<link rel="stylesheet" href="./styles.css">', `<style>${styles}</style>`)
+    .replace('<link rel="icon" type="image/svg+xml" href="./favicon.svg">', 
+      `<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,${encodeURIComponent(favicon)}">`)
+    .replace('<script src="./health-check.js"></script>', `<script>${healthCheckScript}</script>`);
+  
+  // Inject template variables
+  html = injectVariables(html, variables);
+  
+  return new Response(html, {
+    status: statusCode,
+    headers: {
+      "content-type": "text/html;charset=UTF-8",
+      "cache-control": "no-cache, no-store, must-revalidate",
+      "content-security-policy": "default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src https://healthchecks.io; img-src data:; base-uri 'none'; form-action 'none';",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY",
+      "x-error-page": isFallback ? "cloudflare-worker-fallback" : "cloudflare-worker",
+      "x-request-id": variables.REQUEST_ID || "unknown"
+    }
+  });
+}
+
 export default {
   async fetch(request, env) {
+    const CONFIG = getConfig(env);
+    const requestId = crypto.randomUUID();
+    
     try {
       const response = await fetch(request);
       
@@ -98,24 +133,13 @@ export default {
           ERROR_MESSAGE: getErrorMessage(response.status),
           TIMESTAMP: CONFIG.features.showTimestamp ? getCurrentTimestamp() : 'N/A',
           RETRY_BUTTON: CONFIG.features.showRetryButton ? '<div class="retry-button"><button onclick="location.reload()">Try Again</button></div>' : '',
-          CONTACT_EMAIL_LINK: `mailto:${CONFIG.contact.email}?subject=Error%20Report%20${response.status}&body=Error%20Code:%20${response.status}%0ATime:%20${getCurrentTimestamp()}%0AURL:%20${encodeURIComponent(request.url)}`,
+          CONTACT_EMAIL_LINK: `mailto:${CONFIG.contact.email}?subject=Error%20Report%20${response.status}&body=Error%20Code:%20${response.status}%0ATime:%20${getCurrentTimestamp()}%0AURL:%20${encodeURIComponent(request.url)}%0ARequest%20ID:%20${requestId}`,
           CONTACT_EMAIL: CONFIG.contact.email,
+          REQUEST_ID: requestId,
+          HEALTH_CHECK_URL: CONFIG.healthCheck.url,
         };
         
-        // Inject CSS and variables into the HTML
-        let html = errorHtml.replace('<link rel="stylesheet" href="./styles.css">', `<style>${styles}</style>`);
-        html = html.replace('<link rel="icon" type="image/svg+xml" href="./favicon.svg">', `<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,${encodeURIComponent(favicon)}">`);
-        html = html.replace('<script src="./health-check.js"></script>', `<script>${healthCheckScript}</script>`);
-        html = injectVariables(html, variables);
-        
-        return new Response(html, { 
-          status: response.status,
-          headers: { 
-            "content-type": "text/html;charset=UTF-8",
-            "cache-control": "no-cache, no-store, must-revalidate",
-            "x-error-page": "cloudflare-worker"
-          } 
-        });
+        return buildErrorResponse(response.status, variables);
       }
       
       return response;
@@ -127,24 +151,13 @@ export default {
         ERROR_MESSAGE: getErrorMessage(503),
         TIMESTAMP: CONFIG.features.showTimestamp ? getCurrentTimestamp() : 'N/A',
         RETRY_BUTTON: CONFIG.features.showRetryButton ? '<div class="retry-button"><button onclick="location.reload()">Try Again</button></div>' : '',
-        CONTACT_EMAIL_LINK: `mailto:${CONFIG.contact.email}?subject=Critical%20Error%20Report%20503&body=Error%20Code:%20503%0ATime:%20${getCurrentTimestamp()}%0AURL:%20${encodeURIComponent(request.url)}%0ADetails:%20Origin%20server%20unreachable`,
+        CONTACT_EMAIL_LINK: `mailto:${CONFIG.contact.email}?subject=Critical%20Error%20Report%20503&body=Error%20Code:%20503%0ATime:%20${getCurrentTimestamp()}%0AURL:%20${encodeURIComponent(request.url)}%0ARequest%20ID:%20${requestId}%0ADetails:%20Origin%20server%20unreachable`,
         CONTACT_EMAIL: CONFIG.contact.email,
+        REQUEST_ID: requestId,
+        HEALTH_CHECK_URL: CONFIG.healthCheck.url,
       };
       
-      // Inject CSS and variables into the HTML
-      let html = errorHtml.replace('<link rel="stylesheet" href="./styles.css">', `<style>${styles}</style>`);
-      html = html.replace('<link rel="icon" type="image/svg+xml" href="./favicon.svg">', `<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,${encodeURIComponent(favicon)}">`);
-      html = html.replace('<script src="./health-check.js"></script>', `<script>${healthCheckScript}</script>`);
-      html = injectVariables(html, variables);
-      
-      return new Response(html, { 
-        status: 503,
-        headers: { 
-          "content-type": "text/html;charset=UTF-8",
-          "cache-control": "no-cache, no-store, must-revalidate",
-          "x-error-page": "cloudflare-worker-fallback"
-        } 
-      });
+      return buildErrorResponse(503, variables, true);
     }
   }
 };
